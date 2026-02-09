@@ -272,6 +272,20 @@
       gap: 6px;
       margin-bottom: 8px;
     }
+    .review-upload {
+      margin: 10px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .review-preview {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #e7d1b8;
+      display: none;
+    }
     .review-stars button {
       background: #f6eadb;
       color: #5c3c0b;
@@ -371,6 +385,11 @@
     <h2>Avaliações</h2>
     <div class="menu-item">
       <div class="review-stars" id="reviewStars"></div>
+      <div class="review-upload">
+        <label for="reviewPhoto">Anexar foto (opcional)</label>
+        <input type="file" id="reviewPhoto" accept="image/*" />
+        <img class="review-preview" id="reviewPreview" alt="Prévia da foto do cliente" />
+      </div>
       <textarea id="reviewText" placeholder="Escreva seu comentário"></textarea>
       <button style="margin-top: 10px;" id="reviewSubmit">Enviar avaliação</button>
       <div class="success" id="reviewMessage"></div>
@@ -644,6 +663,8 @@
     const reviewSubmit = document.getElementById("reviewSubmit");
     const reviewMessage = document.getElementById("reviewMessage");
     const reviewText = document.getElementById("reviewText");
+    const reviewPhoto = document.getElementById("reviewPhoto");
+    const reviewPreview = document.getElementById("reviewPreview");
 
     let selectedRating = 0;
 
@@ -783,10 +804,29 @@
         reviewMessage.textContent = "Escreva um comentário antes de enviar.";
         return;
       }
-      reviewMessage.textContent = `Obrigado pelo seu feedback! Você avaliou com ${selectedRating} estrela(s).`;
+      const hasPhoto = reviewPhoto.files.length > 0;
+      reviewMessage.textContent = `Obrigado pelo seu feedback! Você avaliou com ${selectedRating} estrela(s).${hasPhoto ? " Foto recebida!" : ""}`;
       reviewText.value = "";
       selectedRating = 0;
+      reviewPhoto.value = "";
+      reviewPreview.src = "";
+      reviewPreview.style.display = "none";
       [...reviewStars.children].forEach((child) => child.classList.remove("active"));
+    });
+
+    reviewPhoto.addEventListener("change", () => {
+      const file = reviewPhoto.files[0];
+      if (!file) {
+        reviewPreview.src = "";
+        reviewPreview.style.display = "none";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        reviewPreview.src = reader.result;
+        reviewPreview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
     });
 
     renderFeatured();
