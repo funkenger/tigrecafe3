@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.brasiltigrecafe.com"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.brasiltigrecafe.com"
