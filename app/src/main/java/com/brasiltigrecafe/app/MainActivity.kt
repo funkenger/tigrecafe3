@@ -1,4 +1,4 @@
-package com.brasiltigrecafe.com
+package com.brasiltigrecafe.app
 
 import android.Manifest
 import android.annotation.SuppressLint

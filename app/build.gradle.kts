@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.brasiltigrecafe.com"
+    namespace = "com.brasiltigrecafe.app"
     compileSdk = 35
 
     defaultConfig {
         applicationId = "com.brasiltigrecafe.com"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
