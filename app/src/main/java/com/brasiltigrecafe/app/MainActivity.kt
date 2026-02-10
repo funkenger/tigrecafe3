@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onPermissionRequest(request: PermissionRequest) {
                 val needsCamera = request.resources.any { it == PermissionRequest.RESOURCE_VIDEO_CAPTURE }
-                if (needsCamera && !hasCameraPermission()) {
+                if (needsCamera) {
                     request.deny()
                     return
                 }
@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun requestRuntimePermissions() {
-        val permissions = mutableListOf(Manifest.permission.CAMERA)
+        val permissions = mutableListOf<String>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissions.add(Manifest.permission.READ_MEDIA_IMAGES)
         } else {
@@ -173,11 +173,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             permissionLauncher.launch(missing.toTypedArray())
         }
-    }
-
-    private fun hasCameraPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
-            PackageManager.PERMISSION_GRANTED
     }
 
     private fun fetchInstallReferrer() {
